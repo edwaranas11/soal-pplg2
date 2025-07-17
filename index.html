@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Latihan Soal PPLG</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f7f9;
+      color: #333;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #1e3a8a;
+      color: white;
+    }
+    header img {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #1e3a8a;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .options label {
+      display: block;
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #f9f9f9;
+      transition: background 0.2s;
+    }
+    .options label:hover {
+      background-color: #e0e7ff;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #1e3a8a;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3749a2;
+    }
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #d1fae5;
+      border-left: 5px solid #10b981;
+      border-radius: 5px;
+      display: none;
+    }
+    .correct {
+      background-color: #d1fae5;
+      border-color: #10b981;
+    }
+    .incorrect {
+      background-color: #fee2e2;
+      border-color: #ef4444;
+    }
+    .feedback {
+      font-weight: bold;
+      margin-top: 5px;
+    }
+    @media screen and (max-width: 600px) {
+      .container {
+        margin: 10px;
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://edwaranas11.github.io/soal-pplg1/LOGO%20SMK.png" alt="Logo Sekolah" />
+    <h1>Kuis PPLG: Konsep Dasar, Elemen & Proses Bisnis</h1>
+    <p>Oleh Edwar Anas, S.Kom</p>
+  </header>
+
+  <div class="container" id="quiz-container">
+    <form id="quizForm"></form>
+    <div class="result" id="resultBox"></div>
+    <button type="button" onclick="submitQuiz()">Selesai</button>
+    <button type="button" onclick="location.reload()" style="display: none;" id="retryBtn">Coba Lagi</button>
+  </div>
+
+  <script>
+    const questions = [
+      { question: "1. Apa yang dimaksud dengan budaya mutu dalam pengembangan perangkat lunak?", options: ["Kebiasaan memakai komputer terbaru", "Komitmen seluruh tim terhadap kualitas produk", "Menggunakan teknologi mahal", "Membuat aplikasi secepat mungkin"], answer: 1 },
+      { question: "2. Mengapa pemahaman terhadap kebutuhan pelanggan sangat penting dalam PPLG?", options: ["Agar proyek cepat selesai", "Supaya aplikasi terlihat bagus", "Untuk memastikan produk sesuai harapan pengguna", "Agar programmer tidak bosan"], answer: 2 },
+      { question: "3. Tahap yang digunakan untuk mengetahui kebutuhan pelanggan disebut?", options: ["Testing", "Desain UI", "Analisis kebutuhan", "Maintenance"], answer: 2 },
+      { question: "4. Apa indikator dari budaya mutu yang baik dalam tim pengembang?", options: ["Bekerja tanpa rencana", "Fokus hanya pada deadline", "Mengutamakan kualitas, evaluasi, dan perbaikan berkelanjutan", "Hanya programmer yang bertanggung jawab"], answer: 2 },
+      { question: "5. Contoh produk PPLG yang berhasil memenuhi kebutuhan pelanggan adalah...", options: ["Aplikasi yang tidak pernah diupdate", "Game dengan banyak bug", "Software yang mudah digunakan dan sesuai kebutuhan pengguna", "Website yang hanya bisa dibuka di komputer"], answer: 2 },
+      { question: "6. Perkembangan teknologi saat ini membuat PPLG semakin bergantung pada...", options: ["Kertas dan pena", "Manual book", "Teknologi digital dan AI", "Mesin ketik"], answer: 2 },
+      { question: "7. Berikut ini teknologi terbaru yang berpengaruh besar di bidang PPLG adalah...", options: ["Radio analog", "Televisi tabung", "Augmented Reality dan Cloud Computing", "Mesin fotokopi"], answer: 2 },
+      { question: "8. Manfaat dari menggunakan teknologi terbaru dalam PPLG adalah...", options: ["Memperlama proses pembuatan software", "Membuat pekerjaan lebih rumit", "Meningkatkan efisiensi dan kualitas produk", "Menghindari penggunaan kode"], answer: 2 },
+      { question: "9. Salah satu alasan berkembangnya software berbasis web adalah...", options: ["Tidak butuh internet", "Bisa diakses di banyak perangkat", "Tidak perlu desain", "Lebih mahal daripada software desktop"], answer: 1 },
+      { question: "10. Contoh implementasi teknologi terbaru dalam game development adalah...", options: ["Menggunakan notepad untuk desain", "Render grafis 3D menggunakan Unreal Engine", "Menulis kode dengan pensil", "Menjalankan game di mesin kasir"], answer: 1 },
+      { question: "11. Apa kepanjangan dari HAKI?", options: ["Hasil Akhir Kreativitas Indonesia", "Hak Atas Kekayaan Intelektual", "Hak Akses Komputer Indonesia", "Hak Aktif Kepemilikan Inovasi"], answer: 1 },
+      { question: "12. Hak cipta dalam dunia perangkat lunak bertujuan untuk...", options: ["Membatasi kreativitas", "Menghambat distribusi software", "Melindungi hasil karya dari pembajakan", "Menurunkan harga aplikasi"], answer: 2 },
+      { question: "13. Dalam konteks Industri 4.0, teknologi IoT digunakan untuk...", options: ["Memasak makanan", "Menghubungkan perangkat fisik ke internet", "Mematikan listrik secara manual", "Meningkatkan harga perangkat"], answer: 1 },
+      { question: "14. Teknologi AI banyak digunakan dalam PPLG untuk...", options: ["Menghapus kode", "Membuat game menjadi lambat", "Otomatisasi dan peningkatan pengalaman pengguna", "Mengganti developer"], answer: 2 },
+      { question: "15. Dampak negatif dari revolusi industri 4.0 terhadap pengembang perangkat lunak adalah...", options: ["Berkurangnya inovasi", "Persaingan ketat dan kebutuhan pembelajaran berkelanjutan", "Turunnya minat pengguna", "Hilangan minat terhadap teknologi"], answer: 1 },
+      { question: "16. Salah satu ciri software berkualitas tinggi adalah...", options: ["Sering mengalami crash", "Dikembangkan tanpa dokumentasi", "Diuji dengan baik dan memenuhi kebutuhan pengguna", "Dibuat tanpa desain"], answer: 2 },
+      { question: "17. Game edukatif adalah contoh perangkat lunak yang...", options: ["Tidak butuh coding", "Digunakan untuk pembelajaran sambil bermain", "Hanya untuk hiburan", "Selalu online"], answer: 1 },
+      { question: "18. Cloud computing membantu pengembangan PLG dengan cara...", options: ["Menghapus data pengguna", "Menyimpan data secara offline", "Memberikan akses kolaborasi dan penyimpanan online", "Membatasi akses developer"], answer: 2 },
+      { question: "19. Lisensi perangkat lunak berguna untuk...", options: ["Membuat software gratis", "Menghindari pembaruan", "Mengatur hak penggunaan dan distribusi", "Memblokir pengguna"], answer: 2 },
+      { question: "20. Dalam pengembangan PLG, dokumentasi penting karena...", options: ["Membuat software lebih berat", "Tidak diperlukan dalam tim besar", "Mempermudah pemeliharaan dan pengembangan lanjutan", "Hanya sebagai formalitas"], answer: 2 }
+    ];
+
+    const quizForm = document.getElementById("quizForm");
+    questions.forEach((q, index) => {
+      const div = document.createElement("div");
+      div.className = "question";
+      div.innerHTML = `<h2>${q.question}</h2><div class="options">` +
+        q.options.map((opt, i) => `
+          <label>
+            <input type="radio" name="q${index}" value="${i}"/> ${opt}
+          </label>`).join("") +
+        `</div><div class="feedback" id="feedback${index}"></div>`;
+      quizForm.appendChild(div);
+    });
+
+    function submitQuiz() {
+      const answers = questions.map((_, i) =>
+        document.querySelector(`input[name="q${i}"]:checked`)
+      );
+
+      if (answers.includes(null)) {
+        alert("Silakan jawab semua soal terlebih dahulu!");
+        return;
+      }
+
+      let score = 0;
+      answers.forEach((ans, i) => {
+        const correct = questions[i].answer;
+        const feedbackEl = document.getElementById(`feedback${i}`);
+        const labels = document.querySelectorAll(`input[name="q${i}"]`);
+
+        labels.forEach(input => {
+          const label = input.closest("label");
+          label.classList.remove("correct", "incorrect");
+          if (parseInt(input.value) === correct) {
+            label.classList.add("correct");
+          }
+        });
+
+        if (parseInt(ans.value) === correct) {
+          score++;
+          feedbackEl.textContent = "✔ Benar";
+          feedbackEl.style.color = "green";
+        } else {
+          feedbackEl.textContent = `✖ Salah. Jawaban yang benar: ${questions[i].options[correct]}`;
+          feedbackEl.style.color = "red";
+          ans.closest("label").classList.add("incorrect");
+        }
+      });
+
+      const resultBox = document.getElementById("resultBox");
+      resultBox.style.display = "block";
+      resultBox.innerHTML = `<strong>Skor Kamu: ${score} / ${questions.length}</strong><br>Terus semangat belajar ya!`;
+
+      document.querySelector("button[onclick='submitQuiz()']").style.display = "none";
+      document.getElementById("retryBtn").style.display = "inline-block";
+    }
+  </script>
+</body>
+</html>
